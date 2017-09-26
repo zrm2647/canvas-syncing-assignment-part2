@@ -1,13 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script src="/socket.io/socket.io.js"></script>
     <script src="https://npmcdn.com/babel-core@5.8.38/browser.min.js"></script>
     <script type="text/babel" >
         "use strict";
+
+        var canvas = document.querySelector("#cnv");
+        var ctx = canvas.getContext('2d');
+
+        let socket;
+
+        const init = () => {
+            socket = io.connect();
+            
+            socket.on('update', (data) => {
+                ctx.fillStyle = "#FF0000";
+                ctx.fillRect(data.sX, data.sY, 50, 50);
+                ctx.strokeStyle = "#000000";
+                ctx.strokeRect(data.sX, data.sY, 50, 50);
+            });
+        };
+
+        window.onload = init;
     
     </script>
 </head>
 <body>
-
+    <canvas id="cnv" width="250" height="250"></canvas>
 </body>
 </html>
